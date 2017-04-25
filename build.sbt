@@ -1,6 +1,7 @@
 scalaVersion := "2.12.2"
 
 libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 )
 
 scalacOptions ++= Seq(
@@ -14,6 +15,6 @@ scalacOptions ++= Seq(
   "-Yno-adapted-args",
   "-Ywarn-dead-code",
   "-Ywarn-numeric-widen",
-  "-Ywarn-value-discard",
-  "-Ywarn-unused"
+  "-Ywarn-value-discard"
+//  "-Ywarn-unused"
 )
