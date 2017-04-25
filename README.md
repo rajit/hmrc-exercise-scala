@@ -9,8 +9,13 @@
 val system = new CheckoutSystem(List(
     CheckoutProduct("name", <price: BigDecimal>)...))
     
-// Create new CheckoutSystem with offers
+// Create new CheckoutSystem with apple offer
 val system = new CheckoutSystem(
-    List(CheckoutProduct("name", <price: BigDecimal>)...),
+    List(CheckoutProduct("apple", <price: BigDecimal>)...),
     CheckoutOffers(appleBuyOneGetOneFree = true, apple = CheckoutProduct("apple", BigDecimal("0.6")))
+    
+// Create new CheckoutSystem with orange offer
+val system = new CheckoutSystem(
+    List(CheckoutProduct("orange", <price: BigDecimal>)...),
+    CheckoutOffers(orangeThreeForTwo = true, orange = CheckoutProduct("orange", BigDecimal("0.25")))
 ```
