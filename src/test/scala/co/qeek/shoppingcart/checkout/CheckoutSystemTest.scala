@@ -19,4 +19,14 @@ class CheckoutSystemTest extends FlatSpec with Matchers {
       CheckoutProduct("product-name", 12),
       CheckoutProduct("other-product", 51))) shouldBe 63
   }
+
+  it should "return 2.05 for 3 apples and an orange" in {
+    val system = new CheckoutSystem
+
+    val apple = CheckoutProduct("apple", BigDecimal("0.6"))
+    val orange = CheckoutProduct("orange", BigDecimal("0.25"))
+    val products = List(apple, apple, orange, apple)
+
+    system.totalCost(products) shouldBe BigDecimal("2.05")
+  }
 }
