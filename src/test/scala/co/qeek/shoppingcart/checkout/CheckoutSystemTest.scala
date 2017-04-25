@@ -8,8 +8,15 @@ class CheckoutSystemTest extends FlatSpec with Matchers {
     system.totalCost(List()) shouldBe 0
   }
 
-  ".totalCost" should "return cost of product for single-item list" in {
+  it should "return cost of product for single-item list" in {
     val system = new CheckoutSystem
     system.totalCost(List(CheckoutProduct("product-name", 19))) shouldBe 19
+  }
+
+  it should "return total cost given 2 products" in {
+    val system = new CheckoutSystem
+    system.totalCost(List(
+      CheckoutProduct("product-name", 12),
+      CheckoutProduct("other-product", 51))) shouldBe 63
   }
 }
