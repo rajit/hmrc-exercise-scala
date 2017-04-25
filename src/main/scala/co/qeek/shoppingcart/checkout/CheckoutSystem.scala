@@ -24,7 +24,18 @@ class CheckoutSystem(products: Map[String, CheckoutProduct], offers: CheckoutOff
         val noOfApples = items.count(_.name == product.name)
         if (noOfApples > 1) {
           // This assumes apples are always the same price, but that is not currently enforced by the interface
-          Discount(Math.floor(noOfApples.toDouble / 2d) * product.price) :: Nil
+          Discount(product.price * Math.floor(noOfApples.toDouble / 2d)) :: Nil
+        } else Nil
+      case _ => Nil
+    }
+
+  def calculateThreeForTwo(items: List[CheckoutProduct]): List[Discount] =
+    (offers.orangeThreeForTwo, offers.orange) match {
+      case (true, Some(product)) =>
+        val noOfOranges = items.count(_.name == product.name)
+        if (noOfOranges > 2) {
+          // This assumes oranges are always the same price, but that is not currently enforced by the interface
+          Discount(product.price * Math.floor(noOfOranges.toDouble / 3d)) :: Nil
         } else Nil
       case _ => Nil
     }
@@ -34,7 +45,8 @@ class CheckoutSystem(products: Map[String, CheckoutProduct], offers: CheckoutOff
 
   def applyAnyDiscounts(items: List[CheckoutProduct], totalCost: BigDecimal): BigDecimal = {
     val buyOneDiscount = calculateBuyOneGetOneFree(items)
-    applyTheseDiscounts(totalCost, buyOneDiscount)
+    val threeForTwoDiscount = calculateThreeForTwo(items)
+    applyTheseDiscounts(totalCost, buyOneDiscount ++ threeForTwoDiscount)
   }
 
   // Returns total cost in £
@@ -50,5 +62,7 @@ final case class CheckoutProduct(name: String, price: BigDecimal)
 sealed abstract class ProductLookupError
 final case class ProductNotFound(name: String) extends ProductLookupError
 
-final case class CheckoutOffers(appleBuyOneGetOneFree: Boolean = false, apple: Option[CheckoutProduct] = None)
+final case class CheckoutOffers(
+  appleBuyOneGetOneFree: Boolean = false, apple: Option[CheckoutProduct] = None,
+  orangeThreeForTwo: Boolean = false, orange: Option[CheckoutProduct] = None)
 final case class Discount(amount: BigDecimal)
